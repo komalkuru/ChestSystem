@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c46d8ad79057d8b4d91f4596b15f23d0, type: 3}
+  m_Name: ChestConfigSO
+  m_EditorClassIdentifier: 
+  ChestConfigurationMap:
+  - ChestType: 1
+    ChestSO: {fileID: 11400000, guid: 1e71e3efe34efc34a969a20ed2d45d4e, type: 2}
+  - ChestType: 2
+    ChestSO: {fileID: 11400000, guid: a531732f354c8314598aa886de205e4a, type: 2}
+  - ChestType: 3
+    ChestSO: {fileID: 11400000, guid: b2f6856ca8c75e84f8a74deaf5f43af8, type: 2}
+  - ChestType: 4
+    ChestSO: {fileID: 11400000, guid: 1b804df08ec25be4d88f1d810a9563ac, type: 2}
