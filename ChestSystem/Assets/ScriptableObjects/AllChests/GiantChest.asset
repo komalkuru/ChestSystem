@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChestName: GiantChest
   ChestSprite: {fileID: 21300000, guid: a19bd17b12c20e145b7bbfafe8ca2ab1, type: 3}
+  chestType: 4
+  UnlockTime: 12H
   UnlockDuration: 12
   MinCoins: 3000
   MaxCoins: 3500
   MinGems: 3
   MaxGems: 7
   UnlockCost: 72
+  CardCount: 3
+  UnlockChestSprite: {fileID: 21300000, guid: 01311860c60effb428562c336927d6b4, type: 3}

@@ -135,7 +135,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2678792000251693818
 RectTransform:
   m_ObjectHideFlags: 0
@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotReference: {fileID: 0}
-  EmptySlotSprite: {fileID: 21300000, guid: d5908ddb3f67d5043a4dcc8dbdde018f, type: 3}
+  EmptySlotSprite: {fileID: 21300000, guid: a19bd17b12c20e145b7bbfafe8ca2ab1, type: 3}
   LockText: {fileID: 1883887573328524493}
   UnlockText: {fileID: 6213836020602986997}
   TimerText: {fileID: 6455811564351677356}
@@ -236,7 +236,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2531579849334757339}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 

@@ -7,7 +7,7 @@ public class SlotsController : GenericSingleton<SlotsController>
     [SerializeField]
     private Slots[] Slots;
     [SerializeField]
-    private ChestConfigs chestConfiguration;
+    public ChestConfigs chestConfiguration;
     public bool isUnlocking;
 
     private void Start()
@@ -29,7 +29,7 @@ public class SlotsController : GenericSingleton<SlotsController>
         }
     }
 
-    private int GetEmptySlot()
+    public int GetEmptySlot()
     {
         for (int i = 0; i < 4; i++)
         {

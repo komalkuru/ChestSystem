@@ -35,4 +35,9 @@ public class ResourceHandler : GenericSingleton<ResourceHandler>
         coins -= valueToDecrease;
         UIHandler.Instance.UpdateCoinsUI(coins);
     }
+
+    public void ExploreCards(int _totalCards)
+    {
+        int totalCards = _totalCards;
+    }
 }

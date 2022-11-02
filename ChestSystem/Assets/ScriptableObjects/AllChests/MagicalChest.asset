@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChestName: MagicalChest
   ChestSprite: {fileID: 21300000, guid: 60f1276f3ec405249a66621e00f47477, type: 3}
+  chestType: 3
+  UnlockTime: 6H
   UnlockDuration: 6
   MinCoins: 1221
   MaxCoins: 1696
   MinGems: 1
   MaxGems: 3
   UnlockCost: 36
+  CardCount: 4
+  UnlockChestSprite: {fileID: 21300000, guid: a2728dcb94a925449947feeb9f977d2e, type: 3}

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Slots: MonoBehaviour
@@ -23,6 +23,6 @@ public class Slots: MonoBehaviour
     public void SetSlotReference()
     {
         chestView.slotReference = this;
-    }
+    } 
 
 }

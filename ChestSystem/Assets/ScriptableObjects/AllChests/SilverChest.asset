@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChestName: Silver
   ChestSprite: {fileID: 21300000, guid: 083a99e49f1062049b17a1e166ae69a3, type: 3}
+  chestType: 1
+  UnlockTime: 3H
   UnlockDuration: 3
   MinCoins: 147
   MaxCoins: 168
   MinGems: 2
   MaxGems: 6
   UnlockCost: 18
+  CardCount: 3
+  UnlockChestSprite: {fileID: 21300000, guid: b928fbf7c8d93d54584dfe59c6896e66, type: 3}

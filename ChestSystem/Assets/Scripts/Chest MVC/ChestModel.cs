@@ -8,11 +8,15 @@ public class ChestModel
     public ChestModel(ChestScriptableObject ChestSO)
     {
         ChestName = ChestSO.ChestName;
+        UnlockTimeString = ChestSO.UnlockTime;
         ChestSprite  = ChestSO.ChestSprite;
         UnlockDuration = ChestSO.UnlockDuration;
         CoinCost = ChestSO.UnlockCost;
         CoinsReward = Random.Range(ChestSO.MinCoins, ChestSO.MaxCoins + 1);
         GemsReward = Random.Range(ChestSO.MinGems, ChestSO.MaxGems + 1);
+        CardCount = ChestSO.CardCount;
+        UnlockChestSprite = ChestSO.UnlockChestSprite;
+        ChestCurrentType = ChestSO.chestType;
     }
 
     public float UnlockDuration { get; }
@@ -23,4 +27,8 @@ public class ChestModel
     public int CoinsReward { get; }
     public int GemCost { get; }
     public int GemsReward { get; }
+    public string UnlockTimeString { get; }
+    public int CardCount { get; set; }
+    public Sprite UnlockChestSprite { get; }
+    public ChestType ChestCurrentType { get; }
 }

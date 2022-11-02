@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChestName: GoldenChest
   ChestSprite: {fileID: 21300000, guid: 857fead8445f73e4db2a5122b90100e2, type: 3}
+  chestType: 2
+  UnlockTime: 8H
   UnlockDuration: 8
   MinCoins: 588
   MaxCoins: 672
   MinGems: 5
   MaxGems: 10
   UnlockCost: 48
+  CardCount: 2
+  UnlockChestSprite: {fileID: 21300000, guid: 40ee5f908c2b47e43be79d744de29846, type: 3}

@@ -10,7 +10,9 @@ public class ChestView : MonoBehaviour
     [HideInInspector]
     public Slots slotReference;
 
-    [SerializeField] private Sprite EmptySlotSprite;
+    [Header("Chest Information")]
+    [SerializeField] private Image EmptySlotSprite;
+    [SerializeField] private Image BackgroundImage;
     public Text LockText;
     public Text UnlockText;
     public Text TimerText;
@@ -22,10 +24,15 @@ public class ChestView : MonoBehaviour
     [SerializeField] private Image GemsImage;
     public Text OpenChestText;
     [SerializeField] private Button ChestButton;
-
     [SerializeField] private Image chestSlotSprite;
 
+    [Header("Explore Chest Information")]
+    public Text CardCount;
+    [SerializeField] private Image unlockChestImage;
+
     private ChestState currentState;
+
+    private ChestType chestType;
 
     public void SetControllerReference(ChestController chestController)
     {
@@ -39,27 +46,34 @@ public class ChestView : MonoBehaviour
 
     public void InitializeEmptyChestView()
     {
-        chestSlotSprite.sprite = EmptySlotSprite;
-        LockText.gameObject.SetActive(true);
+        EmptySlotSprite.gameObject.SetActive(true);
+        BackgroundImage.gameObject.SetActive(false);
+        LockText.gameObject.SetActive(false);
         UnlockText.gameObject.SetActive(false);
         TimerText.gameObject.SetActive(false);
-        TimeText.gameObject.SetActive(true);
-        chestSprite.gameObject.SetActive(true);
+        TimeText.gameObject.SetActive(false);
+        chestSprite.gameObject.SetActive(false);
         OpenNowText.gameObject.SetActive(false);
-        ArenaText.gameObject.SetActive(true);
+        ArenaText.gameObject.SetActive(false);
         GemsCountText.gameObject.SetActive(false);
         GemsImage.gameObject.SetActive(false);
         OpenChestText.gameObject.SetActive(false);
+        ChestButton.gameObject.SetActive(false);
 
         currentState = ChestState.None;
     }
 
     public void InitialiseViewUIForLockedChest()
     {
+        EmptySlotSprite.gameObject.SetActive(false);
+        BackgroundImage.gameObject.SetActive(true);
         LockText.gameObject.SetActive(true);
         UnlockText.gameObject.SetActive(false);
         TimerText.gameObject.SetActive(false);
+
         TimeText.gameObject.SetActive(true);
+        TimeText.text = chestController.chestModel.UnlockTimeString;
+
         chestSprite.gameObject.SetActive(true);
         chestSlotSprite.sprite = chestController.chestModel.ChestSprite;
 
@@ -68,13 +82,18 @@ public class ChestView : MonoBehaviour
         GemsCountText.gameObject.SetActive(false);
         GemsImage.gameObject.SetActive(false);
         OpenChestText.gameObject.SetActive(false);
+        ChestButton.gameObject.SetActive(true);
 
         ChestButton.enabled = true;
         currentState = ChestState.Locked;
+        chestType = chestController.chestModel.ChestCurrentType;
+        Debug.Log(chestType);
     }
 
     public void InitialiseViewUIForUnlockingChest()
     {
+        EmptySlotSprite.gameObject.SetActive(false);
+        BackgroundImage.gameObject.SetActive(true);
         LockText.gameObject.SetActive(false);
         UnlockText.gameObject.SetActive(false);
         TimerText.gameObject.SetActive(true);
@@ -88,6 +107,7 @@ public class ChestView : MonoBehaviour
         GemsCountText.text = chestController.GetGemCost().ToString();
         GemsImage.gameObject.SetActive(true);
         OpenChestText.gameObject.SetActive(false);
+        ChestButton.gameObject.SetActive(true);
 
         ChestButton.enabled = true;
         currentState = ChestState.Unlocking;
@@ -95,6 +115,8 @@ public class ChestView : MonoBehaviour
 
     public void InitialiseViewUIForUnlockedChest()
     {
+        EmptySlotSprite.gameObject.SetActive(false);
+        BackgroundImage.gameObject.SetActive(true);
         LockText.gameObject.SetActive(false);
         UnlockText.gameObject.SetActive(true);
         TimerText.gameObject.SetActive(false);
@@ -107,6 +129,7 @@ public class ChestView : MonoBehaviour
         GemsCountText.gameObject.SetActive(false);
         GemsImage.gameObject.SetActive(false);
         OpenChestText.gameObject.SetActive(true);
+        ChestButton.gameObject.SetActive(true);
 
         ChestButton.enabled = true;
         currentState = ChestState.Unlocked;
@@ -124,6 +147,7 @@ public class ChestView : MonoBehaviour
             else
             {
                 ChestService.Instance.selectedController = chestController;
+                CheckChestType();
                 UIHandler.Instance.ToggleUnlockChestPopup(true);
             }
 
@@ -200,5 +224,30 @@ public class ChestView : MonoBehaviour
     {
         ResourceHandler.Instance.IncreaseCoins(chestController.chestModel.CoinsReward);
         ResourceHandler.Instance.IncreaseGems(chestController.chestModel.GemsReward);
+    }
+
+    public void CheckChestType(/*On which chest we are going to explore*/)
+    {
+        if(chestType == ChestType.Silver)
+        {
+            CardCount.text = chestController.chestModel.CardCount.ToString();
+            unlockChestImage.sprite = chestController.chestModel.UnlockChestSprite;
+        }
+        if (chestType == ChestType.Golden)
+        {
+            CardCount.text = chestController.chestModel.CardCount.ToString();
+            unlockChestImage.sprite = chestController.chestModel.UnlockChestSprite;
+        }
+        if (chestType == ChestType.Magical)
+        {
+            CardCount.text = chestController.chestModel.CardCount.ToString();
+            unlockChestImage.sprite = chestController.chestModel.UnlockChestSprite;
+        }
+        if (chestType == ChestType.Giant)
+        {
+            CardCount.text = chestController.chestModel.CardCount.ToString();
+            unlockChestImage.sprite = chestController.chestModel.UnlockChestSprite;
+        }
+
     }
 }
