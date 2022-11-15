@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ChestView : MonoBehaviour
+public class ChestView : MonoBehaviour//IPointerClickHandler 
 {
     [HideInInspector]
     public ChestController chestController;
@@ -33,17 +34,24 @@ public class ChestView : MonoBehaviour
     private ChestState currentState;
 
     private ChestType chestType;
+    private int clickCount;
+    private bool isToggleChestPopupUnlocked;
 
     public void SetControllerReference(ChestController chestController)
     {
         this.chestController = chestController;
-    }   
+    }
 
     private void Start()
     {
         InitializeEmptyChestView();
+        isToggleChestPopupUnlocked = false;
     }
 
+    private void Update()
+    {
+        GetMouseDown();
+    }
     public void InitializeEmptyChestView()
     {
         EmptySlotSprite.gameObject.SetActive(true);
@@ -145,10 +153,13 @@ public class ChestView : MonoBehaviour
                 UIHandler.Instance.ToggleIsBusyUnlockingPopup(true);
             }
             else
-            {
+            {                
                 ChestService.Instance.selectedController = chestController;
-                CheckChestType();
+                CardCount.text = chestController.chestModel.CardCount.ToString();
+                unlockChestImage.sprite = chestController.chestModel.UnlockChestSprite;                
                 UIHandler.Instance.ToggleUnlockChestPopup(true);
+                isToggleChestPopupUnlocked = UIHandler.Instance.ToggleUnlockChestPopup(true);
+
             }
 
 
@@ -224,30 +235,42 @@ public class ChestView : MonoBehaviour
     {
         ResourceHandler.Instance.IncreaseCoins(chestController.chestModel.CoinsReward);
         ResourceHandler.Instance.IncreaseGems(chestController.chestModel.GemsReward);
-    }
+    }  
 
-    public void CheckChestType(/*On which chest we are going to explore*/)
+    public void ShowCounter(int cardCounter, int mouseClickCounter)
     {
-        if(chestType == ChestType.Silver)
+        string convertedCardCounter = cardCounter.ToString();
+        CardCount.text = convertedCardCounter;
+        if (CardCount.text == 0.ToString() )
         {
-            CardCount.text = chestController.chestModel.CardCount.ToString();
-            unlockChestImage.sprite = chestController.chestModel.UnlockChestSprite;
+            Debug.Log("Off");
+            UIHandler.instance.rewardedGemsImage.SetActive(false);
+            UIHandler.Instance.ToggleUnlockChestPopup(false);
         }
-        if (chestType == ChestType.Golden)
+    }
+    
+    public void GetMouseDown()
+    {
+        clickCount = 0;
+        if (isToggleChestPopupUnlocked == true)
         {
-            CardCount.text = chestController.chestModel.CardCount.ToString();
-            unlockChestImage.sprite = chestController.chestModel.UnlockChestSprite;
+            if (clickCount == 0)
+            {
+                UIHandler.instance.rewardedCoinImage.SetActive(true);
+                UIHandler.instance.randomCoinGenerated.text = "+ " + chestController.chestModel.CoinsReward.ToString();
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                clickCount++;
+                UIHandler.instance.rewardedCoinImage.SetActive(false);
+                chestController.GetCardCount(CardCount.text, clickCount);
+                if (clickCount == 1)
+                 {
+                   // UIHandler.instance.rewardedCoinImage.SetActive(false);
+                    UIHandler.instance.rewardedGemsImage.SetActive(true);
+                    UIHandler.instance.randomGemsGenerated.text = "+ " + chestController.chestModel.GemsReward.ToString();
+                 }
+            }
         }
-        if (chestType == ChestType.Magical)
-        {
-            CardCount.text = chestController.chestModel.CardCount.ToString();
-            unlockChestImage.sprite = chestController.chestModel.UnlockChestSprite;
-        }
-        if (chestType == ChestType.Giant)
-        {
-            CardCount.text = chestController.chestModel.CardCount.ToString();
-            unlockChestImage.sprite = chestController.chestModel.UnlockChestSprite;
-        }
-
     }
 }

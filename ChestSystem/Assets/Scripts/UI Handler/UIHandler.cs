@@ -20,15 +20,19 @@ public class UIHandler : GenericSingleton<UIHandler>
     [SerializeField]
     public GameObject rewardPopup;
 
-    //
     public Text coinText;
     public Text GemsText;
 
     public int totalCoins;
-    public int totalGems;
-    
+    public int totalGems;    
 
     public Text rewardReceivedText;
+
+    public GameObject rewardedCoinImage;
+    public GameObject rewardedGemsImage;
+    public Text randomCoinGenerated;
+    public Text randomGemsGenerated;
+
 
     public int CoinInitializer()
     {
@@ -52,14 +56,14 @@ public class UIHandler : GenericSingleton<UIHandler>
         busyUnlockingPopup.SetActive(setActive);
     }
 
-    public void ToggleUnlockChestPopup(bool setActive)
+    public bool ToggleUnlockChestPopup(bool setActive)
     {
         unlockChestPopup.SetActive(setActive);
         if (setActive == false)
         {
-            // Debug.Log("selected controller reference got deleted.");
             ChestService.Instance.selectedController = null;
         }
+        return setActive;
     }
 
     public void ToggleInsufficientResourcesPopup(bool setActive)

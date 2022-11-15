@@ -39,4 +39,19 @@ public class ChestController
         chestView.EnteringUnlockedState();
         return;
     }
+
+    public void GetCardCount(string totalCardsInChest, int mouseClickCount)
+    {
+        int cardTotalCount = int.Parse(totalCardsInChest);
+        int TotalMouseClick = cardTotalCount;
+
+        Debug.Log("cardTotalCount : " + cardTotalCount + "TotalMouseClick : " + TotalMouseClick);
+        if(cardTotalCount >= 0 && mouseClickCount <= TotalMouseClick)
+        {
+            cardTotalCount -= 1;
+            mouseClickCount += 1;
+
+            chestView.ShowCounter(cardTotalCount, mouseClickCount);
+        }
+    }
 }

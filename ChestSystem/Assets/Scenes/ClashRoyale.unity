@@ -291,7 +291,7 @@ GameObject:
   m_Component:
   - component: {fileID: 56543090}
   m_Layer: 5
-  m_Name: SilverChest
+  m_Name: DefaultChest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5761,6 +5761,10 @@ MonoBehaviour:
   totalCoins: 100000
   totalGems: 500
   rewardReceivedText: {fileID: 1613701186}
+  rewardedCoinImage: {fileID: 1984542164}
+  rewardedGemsImage: {fileID: 985384973}
+  randomCoinGenerated: {fileID: 1022869194}
+  randomGemsGenerated: {fileID: 23398915}
 --- !u!1 &1978871732
 GameObject:
   m_ObjectHideFlags: 0
@@ -5854,7 +5858,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1984542165
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6581,7 +6585,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1580629212}
+      - m_Target: {fileID: 462778923}
         m_TargetAssemblyTypeName: ChestView, Assembly-CSharp
         m_MethodName: OnClickChestButton
         m_Mode: 1
@@ -9742,7 +9746,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1580629212}
+      - m_Target: {fileID: 150304226}
         m_TargetAssemblyTypeName: ChestView, Assembly-CSharp
         m_MethodName: OnClickChestButton
         m_Mode: 1
@@ -9981,7 +9985,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1580629212}
+      - m_Target: {fileID: 171467315}
         m_TargetAssemblyTypeName: ChestView, Assembly-CSharp
         m_MethodName: OnClickChestButton
         m_Mode: 1
