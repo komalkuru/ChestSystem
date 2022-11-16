@@ -14,33 +14,36 @@ public class ChestService : GenericSingleton<ChestService>
         return chestController;
     }
 
+    public void OnClickStartTimer()
+    {
+        selectedController.chestView.EnteringUnlockingState();
+        UIHandler.Instance.ToggleUnlockChestPopup(false, ChestType.None);
+        
+    }
+
     public void OnClickOpenInstantlyWithGems()
     {
         if (ResourceHandler.Instance.gems < selectedController.GetGemCost())
         {
-            UIHandler.Instance.ToggleUnlockChestPopup(false);
+            UIHandler.Instance.ToggleUnlockChestPopup(false, ChestType.None);
             UIHandler.Instance.ToggleInsufficientResourcesPopup(true);
         }
         else
         {
             ResourceHandler.Instance.DecreaseGems(selectedController.GetGemCost());
             selectedController.chestView.OpenInstantly();
-            UIHandler.Instance.ToggleUnlockChestPopup(false);
+            UIHandler.Instance.ToggleUnlockChestPopup(false,ChestType.None);
         }
     }
 
 
-    public void ToggleRewardsPopup(bool setActive)
+    public bool ToggleRewardsPopup(bool setActive)
     {
         if (!setActive)
         {
             selectedController = null;
         }
-        else
-        {
-            UIHandler.Instance.rewardReceivedText.text
-                = "You received " + selectedController.chestModel.CoinsReward + " coins and " + selectedController.chestModel.GemsReward + " gems.";
-        }
         UIHandler.Instance.rewardPopup.SetActive(setActive);
+        return setActive;
     }
 }

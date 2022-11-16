@@ -13,8 +13,8 @@ public class UIHandler : GenericSingleton<UIHandler>
     private GameObject slotsFullPopup;
     [SerializeField]
     private GameObject busyUnlockingPopup;
-    [SerializeField]
-    private GameObject unlockChestPopup;
+    //[SerializeField]
+    //private GameObject unlockChestPopup;
     [SerializeField]
     private GameObject insufficientResourcesPopup;
     [SerializeField]
@@ -28,11 +28,18 @@ public class UIHandler : GenericSingleton<UIHandler>
 
     public Text rewardReceivedText;
 
-    public GameObject rewardedCoinImage;
-    public GameObject rewardedGemsImage;
+    public Image rewardedCoinImage;
+    public Image rewardedGemsImage;
     public Text randomCoinGenerated;
     public Text randomGemsGenerated;
 
+    [HideInInspector] public int rewardedCoins;
+    [HideInInspector] public int rewardedGems;
+
+    public GameObject sliverChestPopUp;
+    public GameObject goldenChestPopUp;
+    public GameObject giantChestPopUp;
+    public GameObject magicalChestPopUp;
 
     public int CoinInitializer()
     {
@@ -56,13 +63,50 @@ public class UIHandler : GenericSingleton<UIHandler>
         busyUnlockingPopup.SetActive(setActive);
     }
 
-    public bool ToggleUnlockChestPopup(bool setActive)
+    public bool ToggleUnlockChestPopup(bool setActive, ChestType currentChestType)
     {
-        unlockChestPopup.SetActive(setActive);
+        //unlockChestPopup.SetActive(setActive);
         if (setActive == false)
         {
             ChestService.Instance.selectedController = null;
+            sliverChestPopUp.SetActive(setActive);
+            goldenChestPopUp.SetActive(setActive);
+            giantChestPopUp.SetActive(setActive);
+            magicalChestPopUp.SetActive(setActive);
         }
+
+        if(setActive == true && currentChestType == ChestType.Silver)
+        {
+            sliverChestPopUp.SetActive(setActive);
+            goldenChestPopUp.SetActive(false);
+            giantChestPopUp.SetActive(false);
+            magicalChestPopUp.SetActive(false);
+        }
+
+        else if(setActive == true && currentChestType == ChestType.Golden)
+        {
+            goldenChestPopUp.SetActive(setActive);
+            sliverChestPopUp.SetActive(false);
+            giantChestPopUp.SetActive(false);
+            magicalChestPopUp.SetActive(false);
+        }
+
+        else if (setActive == true && currentChestType == ChestType.Giant)
+        {
+            giantChestPopUp.SetActive(setActive);
+            sliverChestPopUp.SetActive(false);
+            goldenChestPopUp.SetActive(false);
+            magicalChestPopUp.SetActive(false);
+        }
+
+        else if (setActive == true && currentChestType == ChestType.Magical)
+        {
+            magicalChestPopUp.SetActive(setActive);
+            sliverChestPopUp.SetActive(false);
+            goldenChestPopUp.SetActive(false);
+            giantChestPopUp.SetActive(false);
+        }
+
         return setActive;
     }
 
@@ -79,5 +123,17 @@ public class UIHandler : GenericSingleton<UIHandler>
     public void UpdateCoinsUI(int coins)
     {
         valueOfCoins.text = coins.ToString();
+        Debug.Log(valueOfCoins.text);
+        //valueOfCoins.text = PlayerPrefs.SetString("TotalCoinsText" + valueOfCoins);
+    }
+
+    public void Close()
+    {
+        slotsFullPopup.gameObject.SetActive(false);
+    }
+
+    public void Okay()
+    {
+        busyUnlockingPopup.gameObject.SetActive(false);
     }
 }

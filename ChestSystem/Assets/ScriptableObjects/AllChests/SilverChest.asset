@@ -22,5 +22,5 @@ MonoBehaviour:
   MinGems: 2
   MaxGems: 6
   UnlockCost: 18
-  CardCount: 3
+  CardCount: 2
   UnlockChestSprite: {fileID: 21300000, guid: b928fbf7c8d93d54584dfe59c6896e66, type: 3}

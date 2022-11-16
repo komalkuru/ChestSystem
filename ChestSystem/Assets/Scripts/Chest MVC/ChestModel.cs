@@ -17,6 +17,7 @@ public class ChestModel
         CardCount = ChestSO.CardCount;
         UnlockChestSprite = ChestSO.UnlockChestSprite;
         ChestCurrentType = ChestSO.chestType;
+        UnlockGemsCost = ChestSO.UnlockCost;
     }
 
     public float UnlockDuration { get; }
@@ -31,4 +32,5 @@ public class ChestModel
     public int CardCount { get; set; }
     public Sprite UnlockChestSprite { get; }
     public ChestType ChestCurrentType { get; }
+    public int UnlockGemsCost { get; set; }
 }

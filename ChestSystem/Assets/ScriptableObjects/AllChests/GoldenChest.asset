@@ -24,3 +24,4 @@ MonoBehaviour:
   UnlockCost: 48
   CardCount: 2
   UnlockChestSprite: {fileID: 21300000, guid: 40ee5f908c2b47e43be79d744de29846, type: 3}
+  CurrentChestLockPopUp: {fileID: 8016693274031454333, guid: 71e773a9097bdd947a8a25f16311e40f, type: 3}

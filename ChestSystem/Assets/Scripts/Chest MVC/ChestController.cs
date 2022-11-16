@@ -7,6 +7,7 @@ public class ChestController
     public ChestModel chestModel;
     public ChestView chestView { get; }
     public float unlockTimer;
+    public int gemsCost;
 
     public ChestController(ChestModel chestModel, ChestView chestView)
     {
@@ -14,6 +15,7 @@ public class ChestController
         this.chestView = chestView;
         InitializeView();
         unlockTimer = this.chestModel.UnlockDuration;
+        gemsCost = this.chestModel.UnlockGemsCost;
     }
 
     public void InitializeView()
@@ -24,8 +26,8 @@ public class ChestController
 
     public int GetGemCost()
     {
-        unlockTimer = chestModel.UnlockDuration;
-        return (int)Mathf.Ceil(unlockTimer / 2);
+        gemsCost = chestModel.UnlockGemsCost;
+        return gemsCost;
     }
 
     public async void StartTimer()
@@ -45,7 +47,7 @@ public class ChestController
         int cardTotalCount = int.Parse(totalCardsInChest);
         int TotalMouseClick = cardTotalCount;
 
-        Debug.Log("cardTotalCount : " + cardTotalCount + "TotalMouseClick : " + TotalMouseClick);
+        //Debug.Log("cardTotalCount : " + cardTotalCount + "TotalMouseClick : " + TotalMouseClick);
         if(cardTotalCount >= 0 && mouseClickCount <= TotalMouseClick)
         {
             cardTotalCount -= 1;

@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ChestView : MonoBehaviour//IPointerClickHandler 
-{
+public class ChestView : MonoBehaviour { 
     [HideInInspector]
     public ChestController chestController;
     [HideInInspector]
@@ -35,7 +34,9 @@ public class ChestView : MonoBehaviour//IPointerClickHandler
 
     private ChestType chestType;
     private int clickCount;
+
     private bool isToggleChestPopupUnlocked;
+
 
     public void SetControllerReference(ChestController chestController)
     {
@@ -95,7 +96,8 @@ public class ChestView : MonoBehaviour//IPointerClickHandler
         ChestButton.enabled = true;
         currentState = ChestState.Locked;
         chestType = chestController.chestModel.ChestCurrentType;
-        Debug.Log(chestType);
+
+       // Debug.Log(chestType);
     }
 
     public void InitialiseViewUIForUnlockingChest()
@@ -154,11 +156,8 @@ public class ChestView : MonoBehaviour//IPointerClickHandler
             }
             else
             {                
-                ChestService.Instance.selectedController = chestController;
-                CardCount.text = chestController.chestModel.CardCount.ToString();
-                unlockChestImage.sprite = chestController.chestModel.UnlockChestSprite;                
-                UIHandler.Instance.ToggleUnlockChestPopup(true);
-                isToggleChestPopupUnlocked = UIHandler.Instance.ToggleUnlockChestPopup(true);
+                ChestService.Instance.selectedController = chestController;               
+                UIHandler.Instance.ToggleUnlockChestPopup(true, chestType);               
 
             }
 
@@ -187,13 +186,12 @@ public class ChestView : MonoBehaviour//IPointerClickHandler
         {
             ChestService.Instance.selectedController = chestController;
             OpenChest();
+
+            CardCount.text = chestController.chestModel.CardCount.ToString();
+            unlockChestImage.sprite = chestController.chestModel.UnlockChestSprite;
+            UIHandler.Instance.ToggleUnlockChestPopup(false, chestType);
             ChestService.Instance.ToggleRewardsPopup(true);
-
-            /*
-            
-            1. Call a method OpenChest() from ChestView.
-
-             */
+            isToggleChestPopupUnlocked = ChestService.Instance.ToggleRewardsPopup(true);
         }
     }
 
@@ -203,7 +201,6 @@ public class ChestView : MonoBehaviour//IPointerClickHandler
         SlotsController.Instance.isUnlocking = true;
         InitialiseViewUIForUnlockingChest();
         chestController.StartTimer();
-
     }
 
     public void OpenInstantly()
@@ -220,7 +217,7 @@ public class ChestView : MonoBehaviour//IPointerClickHandler
     {
         SlotsController.Instance.isUnlocking = false;
         InitialiseViewUIForUnlockedChest();
-        TimerText.text = "OPEN!";
+        //TimerText.text = "OPEN!";
     }
 
     public void OpenChest()
@@ -233,8 +230,9 @@ public class ChestView : MonoBehaviour//IPointerClickHandler
 
     public void ReceiveChestRewards()
     {
-        ResourceHandler.Instance.IncreaseCoins(chestController.chestModel.CoinsReward);
-        ResourceHandler.Instance.IncreaseGems(chestController.chestModel.GemsReward);
+        Debug.Log("ReceiveChestRewards");
+        ResourceHandler.Instance.IncreaseCoins(UIHandler.instance.rewardedCoins);
+        ResourceHandler.Instance.IncreaseGems(UIHandler.instance.rewardedGems);
     }  
 
     public void ShowCounter(int cardCounter, int mouseClickCounter)
@@ -244,8 +242,7 @@ public class ChestView : MonoBehaviour//IPointerClickHandler
         if (CardCount.text == 0.ToString() )
         {
             Debug.Log("Off");
-            UIHandler.instance.rewardedGemsImage.SetActive(false);
-            UIHandler.Instance.ToggleUnlockChestPopup(false);
+            ChestService.Instance.ToggleRewardsPopup(false);
         }
     }
     
@@ -256,20 +253,29 @@ public class ChestView : MonoBehaviour//IPointerClickHandler
         {
             if (clickCount == 0)
             {
-                UIHandler.instance.rewardedCoinImage.SetActive(true);
-                UIHandler.instance.randomCoinGenerated.text = "+ " + chestController.chestModel.CoinsReward.ToString();
-            }
+                UIHandler.instance.rewardedCoins = chestController.chestModel.CoinsReward;
+                UIHandler.instance.rewardedCoinImage.gameObject.SetActive(true);
+                UIHandler.instance.randomCoinGenerated.text = "+ " + UIHandler.instance.rewardedCoins.ToString();
+            } 
+
             if (Input.GetMouseButtonDown(0))
             {
                 clickCount++;
-                UIHandler.instance.rewardedCoinImage.SetActive(false);
                 chestController.GetCardCount(CardCount.text, clickCount);
                 if (clickCount == 1)
-                 {
-                   // UIHandler.instance.rewardedCoinImage.SetActive(false);
-                    UIHandler.instance.rewardedGemsImage.SetActive(true);
-                    UIHandler.instance.randomGemsGenerated.text = "+ " + chestController.chestModel.GemsReward.ToString();
-                 }
+                {
+                    UIHandler.instance.rewardedGems =  chestController.chestModel.GemsReward;
+                    UIHandler.instance.rewardedCoinImage.gameObject.SetActive(false);
+                    UIHandler.instance.randomCoinGenerated.gameObject.SetActive(false);
+                    UIHandler.instance.rewardedGemsImage.gameObject.SetActive(true);
+                    UIHandler.instance.randomGemsGenerated.text = "+ " + UIHandler.instance.rewardedGems.ToString();
+                }
+                if(clickCount == 2)
+                {
+                    Debug.Log("2");
+                    UIHandler.instance.rewardedGemsImage.gameObject.SetActive(false);
+                    UIHandler.instance.randomGemsGenerated.gameObject.SetActive(false);
+                }
             }
         }
     }
