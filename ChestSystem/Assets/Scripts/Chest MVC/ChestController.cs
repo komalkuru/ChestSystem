@@ -45,14 +45,13 @@ public class ChestController
     public void GetCardCount(string totalCardsInChest, int mouseClickCount)
     {
         int cardTotalCount = int.Parse(totalCardsInChest);
-        int TotalMouseClick = cardTotalCount;
-
-        if(cardTotalCount >= 0 && mouseClickCount <= TotalMouseClick)
+        
+        if (mouseClickCount != cardTotalCount)
         {
             cardTotalCount -= 1;
             mouseClickCount += 1;
 
-            chestView.ShowCounter(cardTotalCount, mouseClickCount);
+            chestView.ShowCounter(cardTotalCount);
         }
     }
 }

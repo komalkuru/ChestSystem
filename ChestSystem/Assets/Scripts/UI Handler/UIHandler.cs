@@ -21,10 +21,6 @@ public class UIHandler : GenericSingleton<UIHandler>
     public Text coinText;
     public Text GemsText;
 
-   // public int totalCoins;
-    //public int totalGems;    
-
-   // public GameObject rewardExplorer;
 
     public GameObject rewardedCoinObject;
     public GameObject rewardedGemsObject;
@@ -151,4 +147,5 @@ public class UIHandler : GenericSingleton<UIHandler>
     {
         giantChestPopUp.SetActive(false);
     }
+
 }

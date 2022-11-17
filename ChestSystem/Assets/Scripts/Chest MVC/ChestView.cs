@@ -37,6 +37,8 @@ public class ChestView : MonoBehaviour {
 
     private bool isToggleRewardsPopup;
 
+    private bool isClicked;
+
 
     public void SetControllerReference(ChestController chestController)
     {
@@ -47,6 +49,7 @@ public class ChestView : MonoBehaviour {
     {
         InitializeEmptyChestView();
         isToggleRewardsPopup = false;
+        isClicked = false;
     }
 
     private void Update()
@@ -100,7 +103,6 @@ public class ChestView : MonoBehaviour {
         currentState = ChestState.Locked;
         chestType = chestController.chestModel.ChestCurrentType;
 
-       // Debug.Log(chestType);
     }
 
     public void InitialiseViewUIForUnlockingChest()
@@ -178,6 +180,7 @@ public class ChestView : MonoBehaviour {
 
             ChestService.Instance.ToggleRewardsPopup(true);
             isToggleRewardsPopup = ChestService.Instance.ToggleRewardsPopup(true);
+            clickCount = 0;
         }
     }
 
@@ -202,6 +205,7 @@ public class ChestView : MonoBehaviour {
 
         ChestService.Instance.ToggleRewardsPopup(true);
         isToggleRewardsPopup = ChestService.Instance.ToggleRewardsPopup(true);
+        clickCount = 0;
         slotReference.chestController = null;
     }
 
@@ -224,45 +228,53 @@ public class ChestView : MonoBehaviour {
 
         UIHandler.instance.rewardedCoins = chestController.chestModel.CoinsReward;
         UIHandler.instance.rewardedGems = chestController.chestModel.GemsReward;
-        Debug.Log("ReceiveChestRewards");
+        
         ResourceHandler.Instance.IncreaseCoins(UIHandler.instance.rewardedCoins);
         ResourceHandler.Instance.IncreaseGems(UIHandler.instance.rewardedGems);
     }  
 
-    public void ShowCounter(int cardCounter, int mouseClickCounter)
+    public void ShowCounter(int cardCounter)
     {
         string convertedCardCounter = cardCounter.ToString();
         CardCount.text = convertedCardCounter;
 
-        if (CardCount.text == 0.ToString() )
+        if (cardCounter == 0)
         {
-            UIHandler.instance.rewardedGemsObject.gameObject.SetActive(false);
-            UIHandler.instance.rewardedGemsText.gameObject.SetActive(false);
+            Debug.Log("off");
             isToggleRewardsPopup = ChestService.Instance.ToggleRewardsPopup(false);
         }
     }
     
     public void GetMouseDown()
     {
-        clickCount = 0;
-       
-        if (clickCount == 0)
+
+        if (clickCount == 0 && isClicked == false)
         {
-            Debug.Log("clockcount 1: " + clickCount);
             UIHandler.instance.rewardedCoinObject.gameObject.SetActive(true);
             UIHandler.instance.rewardedCoinText.gameObject.SetActive(true);
             UIHandler.instance.rewardedCoinText.text = "+ " + UIHandler.instance.rewardedCoins.ToString();
+            isClicked = true;
         } 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && isClicked)
         {
             clickCount++;
             chestController.GetCardCount(CardCount.text, clickCount);
-            UIHandler.instance.rewardedCoinObject.gameObject.SetActive(false);
-            UIHandler.instance.rewardedCoinText.gameObject.SetActive(false);
+            if(isClicked && clickCount == 1) 
+            {
+                UIHandler.instance.rewardedCoinObject.gameObject.SetActive(false);
+                UIHandler.instance.rewardedCoinText.gameObject.SetActive(false);
 
-            UIHandler.instance.rewardedGemsObject.gameObject.SetActive(true);
-            UIHandler.instance.rewardedGemsText.gameObject.SetActive(true);
-            UIHandler.instance.rewardedGemsText.text = "+ " + UIHandler.instance.rewardedGems.ToString();
+                UIHandler.instance.rewardedGemsObject.gameObject.SetActive(true);
+                UIHandler.instance.rewardedGemsText.gameObject.SetActive(true);
+                UIHandler.instance.rewardedGemsText.text = "+ " + UIHandler.instance.rewardedGems.ToString();
+            }     
+            
+            if(isClicked && clickCount == 2)
+            {
+                UIHandler.instance.rewardedGemsObject.gameObject.SetActive(false);
+                UIHandler.instance.rewardedGemsText.gameObject.SetActive(false);
+                isClicked = false;
+            }
         }
     }
 }
