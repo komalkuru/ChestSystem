@@ -35,7 +35,7 @@ public class ChestView : MonoBehaviour {
     private ChestType chestType;
     private int clickCount;
 
-    private bool isToggleChestPopupUnlocked;
+    private bool isToggleRewardsPopup;
 
 
     public void SetControllerReference(ChestController chestController)
@@ -46,12 +46,15 @@ public class ChestView : MonoBehaviour {
     private void Start()
     {
         InitializeEmptyChestView();
-        isToggleChestPopupUnlocked = false;
+        isToggleRewardsPopup = false;
     }
 
     private void Update()
     {
-        GetMouseDown();
+        if (isToggleRewardsPopup == true)
+        {
+            GetMouseDown();
+        }
     }
     public void InitializeEmptyChestView()
     {
@@ -160,38 +163,21 @@ public class ChestView : MonoBehaviour {
                 UIHandler.Instance.ToggleUnlockChestPopup(true, chestType);               
 
             }
-
-
-
-            /*
-            
-            0. Check if any other Chest is still unlocking usingSlotsController.isUnlocking and if yes then show the "Wait for your Chest to unlock" Popup.
-            1. Open a dialog box with option to either Start the timer through coins or Instantly open through gems.
-            2. The POPUP will open. When any button of the two is clicked in the popup, a method in view is called which checks if enough resources are there or not.
-            3. If not then a popup using UIHandler shows saying Insufficient Resources.
-            4. If enough resources are present then we will call a method EnteringUnlockingState() or OpenInstantly() from the ChestView.
-
-             */
         }
         else if (currentState == ChestState.Unlocking)
         {
-            /*
-            
-            1. Show a popup using UIHandler to UNLOCK Chest through gems(cost calculated by controller) instantly.
-            2. If option chosen then call method EnteringUnlockedState() from the ChestView.
-
-             */
+           
         }
         else if (currentState == ChestState.Unlocked)
         {
             ChestService.Instance.selectedController = chestController;
             OpenChest();
-
             CardCount.text = chestController.chestModel.CardCount.ToString();
             unlockChestImage.sprite = chestController.chestModel.UnlockChestSprite;
             UIHandler.Instance.ToggleUnlockChestPopup(false, chestType);
+
             ChestService.Instance.ToggleRewardsPopup(true);
-            isToggleChestPopupUnlocked = ChestService.Instance.ToggleRewardsPopup(true);
+            isToggleRewardsPopup = ChestService.Instance.ToggleRewardsPopup(true);
         }
     }
 
@@ -209,7 +195,13 @@ public class ChestView : MonoBehaviour {
         ReceiveChestRewards();
         ChestService.Instance.selectedController = chestController;
         slotReference.isEmpty = true;
+
+        CardCount.text = chestController.chestModel.CardCount.ToString();
+        unlockChestImage.sprite = chestController.chestModel.UnlockChestSprite;
+        UIHandler.Instance.ToggleUnlockChestPopup(false, chestType);
+
         ChestService.Instance.ToggleRewardsPopup(true);
+        isToggleRewardsPopup = ChestService.Instance.ToggleRewardsPopup(true);
         slotReference.chestController = null;
     }
 
@@ -217,7 +209,6 @@ public class ChestView : MonoBehaviour {
     {
         SlotsController.Instance.isUnlocking = false;
         InitialiseViewUIForUnlockedChest();
-        //TimerText.text = "OPEN!";
     }
 
     public void OpenChest()
@@ -230,6 +221,9 @@ public class ChestView : MonoBehaviour {
 
     public void ReceiveChestRewards()
     {
+
+        UIHandler.instance.rewardedCoins = chestController.chestModel.CoinsReward;
+        UIHandler.instance.rewardedGems = chestController.chestModel.GemsReward;
         Debug.Log("ReceiveChestRewards");
         ResourceHandler.Instance.IncreaseCoins(UIHandler.instance.rewardedCoins);
         ResourceHandler.Instance.IncreaseGems(UIHandler.instance.rewardedGems);
@@ -239,44 +233,36 @@ public class ChestView : MonoBehaviour {
     {
         string convertedCardCounter = cardCounter.ToString();
         CardCount.text = convertedCardCounter;
+
         if (CardCount.text == 0.ToString() )
         {
-            Debug.Log("Off");
-            ChestService.Instance.ToggleRewardsPopup(false);
+            UIHandler.instance.rewardedGemsObject.gameObject.SetActive(false);
+            UIHandler.instance.rewardedGemsText.gameObject.SetActive(false);
+            isToggleRewardsPopup = ChestService.Instance.ToggleRewardsPopup(false);
         }
     }
     
     public void GetMouseDown()
     {
         clickCount = 0;
-        if (isToggleChestPopupUnlocked == true)
+       
+        if (clickCount == 0)
         {
-            if (clickCount == 0)
-            {
-                UIHandler.instance.rewardedCoins = chestController.chestModel.CoinsReward;
-                UIHandler.instance.rewardedCoinImage.gameObject.SetActive(true);
-                UIHandler.instance.randomCoinGenerated.text = "+ " + UIHandler.instance.rewardedCoins.ToString();
-            } 
+            Debug.Log("clockcount 1: " + clickCount);
+            UIHandler.instance.rewardedCoinObject.gameObject.SetActive(true);
+            UIHandler.instance.rewardedCoinText.gameObject.SetActive(true);
+            UIHandler.instance.rewardedCoinText.text = "+ " + UIHandler.instance.rewardedCoins.ToString();
+        } 
+        if (Input.GetMouseButtonDown(0))
+        {
+            clickCount++;
+            chestController.GetCardCount(CardCount.text, clickCount);
+            UIHandler.instance.rewardedCoinObject.gameObject.SetActive(false);
+            UIHandler.instance.rewardedCoinText.gameObject.SetActive(false);
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                clickCount++;
-                chestController.GetCardCount(CardCount.text, clickCount);
-                if (clickCount == 1)
-                {
-                    UIHandler.instance.rewardedGems =  chestController.chestModel.GemsReward;
-                    UIHandler.instance.rewardedCoinImage.gameObject.SetActive(false);
-                    UIHandler.instance.randomCoinGenerated.gameObject.SetActive(false);
-                    UIHandler.instance.rewardedGemsImage.gameObject.SetActive(true);
-                    UIHandler.instance.randomGemsGenerated.text = "+ " + UIHandler.instance.rewardedGems.ToString();
-                }
-                if(clickCount == 2)
-                {
-                    Debug.Log("2");
-                    UIHandler.instance.rewardedGemsImage.gameObject.SetActive(false);
-                    UIHandler.instance.randomGemsGenerated.gameObject.SetActive(false);
-                }
-            }
+            UIHandler.instance.rewardedGemsObject.gameObject.SetActive(true);
+            UIHandler.instance.rewardedGemsText.gameObject.SetActive(true);
+            UIHandler.instance.rewardedGemsText.text = "+ " + UIHandler.instance.rewardedGems.ToString();
         }
     }
 }

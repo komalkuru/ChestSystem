@@ -47,7 +47,6 @@ public class ChestController
         int cardTotalCount = int.Parse(totalCardsInChest);
         int TotalMouseClick = cardTotalCount;
 
-        //Debug.Log("cardTotalCount : " + cardTotalCount + "TotalMouseClick : " + TotalMouseClick);
         if(cardTotalCount >= 0 && mouseClickCount <= TotalMouseClick)
         {
             cardTotalCount -= 1;

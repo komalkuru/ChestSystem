@@ -13,8 +13,6 @@ public class UIHandler : GenericSingleton<UIHandler>
     private GameObject slotsFullPopup;
     [SerializeField]
     private GameObject busyUnlockingPopup;
-    //[SerializeField]
-    //private GameObject unlockChestPopup;
     [SerializeField]
     private GameObject insufficientResourcesPopup;
     [SerializeField]
@@ -23,35 +21,28 @@ public class UIHandler : GenericSingleton<UIHandler>
     public Text coinText;
     public Text GemsText;
 
-    public int totalCoins;
-    public int totalGems;    
+   // public int totalCoins;
+    //public int totalGems;    
 
-    public Text rewardReceivedText;
+   // public GameObject rewardExplorer;
 
-    public Image rewardedCoinImage;
-    public Image rewardedGemsImage;
-    public Text randomCoinGenerated;
-    public Text randomGemsGenerated;
+    public GameObject rewardedCoinObject;
+    public GameObject rewardedGemsObject;
+
+    public Text rewardedCoinText;
+    public Text rewardedGemsText;
 
     [HideInInspector] public int rewardedCoins;
     [HideInInspector] public int rewardedGems;
 
-    public GameObject sliverChestPopUp;
-    public GameObject goldenChestPopUp;
-    public GameObject giantChestPopUp;
-    public GameObject magicalChestPopUp;
-
-    public int CoinInitializer()
-    {
-        totalCoins = PlayerPrefs.GetInt("TotalCoinsText", +totalCoins);
-        return totalCoins;
-    }
-
-    public int GemsInitializer()
-    {
-        totalGems = PlayerPrefs.GetInt("TotalGemsText", + totalGems);
-        return totalGems;
-    }
+    [SerializeField]
+    private GameObject sliverChestPopUp;
+    [SerializeField]
+    private GameObject goldenChestPopUp;
+    [SerializeField]
+    private GameObject giantChestPopUp;
+    [SerializeField]
+    private GameObject magicalChestPopUp;
 
     public void ToggleSlotsFullPopup(bool setActive)
     {
@@ -65,7 +56,6 @@ public class UIHandler : GenericSingleton<UIHandler>
 
     public bool ToggleUnlockChestPopup(bool setActive, ChestType currentChestType)
     {
-        //unlockChestPopup.SetActive(setActive);
         if (setActive == false)
         {
             ChestService.Instance.selectedController = null;
@@ -115,16 +105,23 @@ public class UIHandler : GenericSingleton<UIHandler>
         insufficientResourcesPopup.SetActive(setActive);
     }
 
-    public void UpdateGemsUI(int gems)
+    public void UpdateGemsUI(int totalGems)
     {
-        valueOfGems.text = gems.ToString();
+        if (PlayerPrefs.HasKey("") != null)
+        {
+            totalGems = PlayerPrefs.GetInt("", +totalGems);
+            valueOfGems.text = totalGems.ToString();
+        }
+        
     }
 
-    public void UpdateCoinsUI(int coins)
+    public void UpdateCoinsUI(int totalCoins)
     {
-        valueOfCoins.text = coins.ToString();
-        Debug.Log(valueOfCoins.text);
-        //valueOfCoins.text = PlayerPrefs.SetString("TotalCoinsText" + valueOfCoins);
+        if (PlayerPrefs.HasKey("") != null)
+        {            
+            totalCoins = PlayerPrefs.GetInt("", +totalCoins);
+            valueOfCoins.text = "" +totalCoins.ToString();
+        }
     }
 
     public void Close()
@@ -135,5 +132,23 @@ public class UIHandler : GenericSingleton<UIHandler>
     public void Okay()
     {
         busyUnlockingPopup.gameObject.SetActive(false);
+    }
+
+    public void CloseSilverPopUp()
+    {
+        sliverChestPopUp.SetActive(false);
+    }
+
+    public void CloseGoldenPopUp()
+    {
+        goldenChestPopUp.SetActive(false);
+    }
+    public void CloseMagicalPopUp()
+    {
+        magicalChestPopUp.SetActive(false);
+    }
+    public void CloseGiantPopUp()
+    {
+        giantChestPopUp.SetActive(false);
     }
 }

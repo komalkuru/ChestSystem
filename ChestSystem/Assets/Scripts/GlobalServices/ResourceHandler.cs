@@ -7,10 +7,9 @@ public class ResourceHandler : GenericSingleton<ResourceHandler>
     public int coins;
     public int gems;
 
+
     private void Start()
     {
-        coins = UIHandler.instance.CoinInitializer();
-        gems = UIHandler.instance.GemsInitializer();
         UIHandler.Instance.UpdateGemsUI(gems);
         UIHandler.Instance.UpdateCoinsUI(coins);
     }
@@ -28,11 +27,6 @@ public class ResourceHandler : GenericSingleton<ResourceHandler>
     public void IncreaseCoins(int valueToIncrease)
     {
         coins += valueToIncrease;
-        UIHandler.Instance.UpdateCoinsUI(coins);
-    }
-    public void DecreaseCoins(int valueToDecrease)
-    {
-        coins -= valueToDecrease;
         UIHandler.Instance.UpdateCoinsUI(coins);
     }
 
